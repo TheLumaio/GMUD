@@ -5,12 +5,14 @@ setmetatable(Text, {
         return cls.new(...)
     end
 })
-function Text.new(string, x, y, button)
+function Text.new(string, x, y, button, func)
     local self = setmetatable({}, Text)
     self.string = string
     self.x = x
     self.y = y
     self.button = button
+	self.func = func or function() end
+	self.inside = false
     return self
 end
 
@@ -20,14 +22,19 @@ function Text:update(dt)
     local w,h = font:getWidth(self.string), font:getHeight(self.string)
     
     if mx > self.x and mx < self.x + w and my > self.y and my < self.y + h then
-        if lm.getCursor() ~= lm.getSystemCursor("arrow") then return end
-        if self.button then
-            lm.setCursor(lm.getSystemCursor("hand"))
-        else
-            lm.setCursor(lm.getSystemCursor("ibeam"))
-        end
+        if not self.inside then
+	        if self.button then
+	            lm.setCursor(lm.getSystemCursor("hand"))
+	        else
+	            lm.setCursor(lm.getSystemCursor("ibeam"))
+	        end
+			self.inside = true
+		end
     else
-        lm.setCursor(lm.getSystemCursor("arrow"))
+		if self.inside then
+        	lm.setCursor(lm.getSystemCursor("arrow"))
+			self.inside = false
+		end
     end
     
 end
@@ -40,6 +47,12 @@ function Text:draw()
     end
     
     lg.print(self.string, self.x, self.y)    
+end
+
+function Text:mousepressed(x, y, b)
+	if self.inside then
+		self.func()
+	end
 end
 
 return Text
