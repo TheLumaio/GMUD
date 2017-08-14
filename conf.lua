@@ -3,4 +3,5 @@ function love.conf(t)
     t.window.width = 1280/3
     t.window.height = 720/3
     t.window.resizable = false
+	t.console = true
 end

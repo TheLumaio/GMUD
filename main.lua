@@ -7,11 +7,14 @@ lg.setLineWidth(1)
 local font = lg.newFont("data/cherry.ttf", 7)
 font:setFilter("linear", "linear")
 
+require "rich"
 local inv_state = require "inventory"
 
 function love.load()
     lg.setFont(font)
 	inv_state:init()
+	
+	richPrint()
 end
 
 function love.update(dt)
