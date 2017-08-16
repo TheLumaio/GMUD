@@ -6,6 +6,45 @@ local itemui = {}
 local infoui = {}
 local items = {}
 
+local weapon_rare = {
+	{{"pre", "Legendary", {90,155,155}}, 0.01},
+	{{"pre", "Slow", {100,100,100}}, 0.10},
+	{{"pre", "Fast", {120,120,120}}, 0.10},
+	{{"pre", "Rare", {155,90,90}}, 0.05},
+	{{"pre", "Uncommon", {155,90,155}}, 0.20},
+	{{"pre", "Common", {255,255,255}}, 0.10},
+	{nil, 0.50}
+}
+
+local weapon_mods = {
+	{{"post", "Fury", {155,155,90}}, 0.1},
+	{{"post", "Freezing", {90,90,155}}, 0.1},
+	{{"post", "Bleeding", {200,90,90}}, 0.1}
+}
+
+local mod_num = {
+	{5, 0.001},
+	{4, 0.01},
+	{3, 0.01},
+	{2, 0.05},
+	{1, 0.20},
+	{0, 1.00}
+}
+
+function createWeapon()
+	local mods = {}
+	local num, prob = getProbabilityItem(mod_num)
+	local rare, prob = getProbabilityItem(weapon_rare)
+	if rare ~= nil then
+		table.insert(mods, rare)
+	end
+	for i=1,num do
+		local mod, prob = getProbabilityItem(weapon_mods)
+		table.insert(mods, mod)
+	end
+	return Item("Sword", "It's a sword I guess.", "Sword", mods)
+end
+
 function updateinfo(item)
 	infoui = {}
 	
@@ -22,7 +61,7 @@ function updateitems()
 	itemui = {}
 	infoui = {}
 	
-	table.insert(itemui, Text("Clear", 10, 10, true, function() infoui = {} end))
+	table.insert(itemui, Text("Clear", 10, 10, true, function() infoui = {} items = {} updateitems() end))
 	table.insert(itemui, Text("Test Probability", 10, 20, true, function()
 		local map = {
 			{"Legendary", 0.25}, -- 25% chance
@@ -31,7 +70,9 @@ function updateitems()
 			{"Fury",      0.65}  -- 65% chance
 		}
 		local item, prob = getProbabilityItem(map)
-		print(item .. " (" .. prob .. "%)")
+		table.insert(items, createWeapon())
+		updateitems()
+		-- print(item .. " (" .. prob .. "%)")
 	end))
 	
 	for i,v in ipairs(items) do
@@ -50,9 +91,10 @@ function state:init()
 		{"post", "Freezing", {90,90,155}}
 	}
 	
-	table.insert(items, Item("Shovel", "Used to shovel shit"))
-	table.insert(items, Item("Sandwich", "A simple PB&J", "Food"))
-	table.insert(items, Item("Sword", "It's legendary", "Sword", sword))
+	-- table.insert(items, Item("Shovel", "Used to shovel shit"))
+	-- table.insert(items, Item("Sandwich", "A simple PB&J", "Food"))
+	-- table.insert(items, Item("Sword", "It's legendary", "Sword", sword))
+	table.insert(items, createWeapon())
 	
 	
 	updateitems()

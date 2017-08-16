@@ -1,6 +1,8 @@
 lg = love.graphics
 lm = love.mouse
 
+math.randomseed(os.time())
+
 lg.setDefaultFilter("linear", "linear")
 lg.setLineStyle("rough")
 lg.setLineWidth(1)
