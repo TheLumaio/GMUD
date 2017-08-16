@@ -8,11 +8,11 @@ local items = {}
 
 local weapon_rare = {
 	{{"pre", "Legendary", {90,155,155}}, 0.01},
-	{{"pre", "Slow", {100,100,100}}, 0.10},
-	{{"pre", "Fast", {120,120,120}}, 0.10},
+	{{"pre", "Slow", {100,100,100}}, 0.01},
+	{{"pre", "Fast", {120,120,120}}, 0.01},
 	{{"pre", "Rare", {155,90,90}}, 0.05},
-	{{"pre", "Uncommon", {155,90,155}}, 0.20},
-	{{"pre", "Common", {255,255,255}}, 0.10},
+	{{"pre", "Uncommon", {155,90,155}}, 0.10},
+	{{"pre", "Common", {200,200,200}}, 0.15},
 	{nil, 0.50}
 }
 
@@ -40,7 +40,15 @@ function createWeapon()
 	end
 	for i=1,num do
 		local mod, prob = getProbabilityItem(weapon_mods)
-		table.insert(mods, mod)
+		local found = false
+		for i,v in ipairs(mods) do
+			if v == mod then
+				found = true
+			end
+		end
+		if not found then
+			table.insert(mods, mod)
+		end
 	end
 	return Item("Sword", "It's a sword I guess.", "Sword", mods)
 end
@@ -62,7 +70,12 @@ function updateitems()
 	infoui = {}
 	
 	table.insert(itemui, Text("Clear", 10, 10, true, function() infoui = {} items = {} updateitems() end))
-	table.insert(itemui, Text("Test Probability", 10, 20, true, function()
+	table.insert(itemui, Text("Test Probability", 10, 30, true, function()
+		if #items == 8 then
+			items = {}
+			updateitems()
+		end
+		
 		local map = {
 			{"Legendary", 0.25}, -- 25% chance
 			{"Slow",      0.05}, -- 5% chance
@@ -76,7 +89,7 @@ function updateitems()
 	end))
 	
 	for i,v in ipairs(items) do
-		table.insert(itemui, Text(v:getRichName(), 75, 50+i*20, true, function() updateinfo(v) end))
+		table.insert(itemui, Text(v:getRichName(), 20, 50+i*20, true, function() updateinfo(v) end))
 	end
 	lm.setCursor(lm.getSystemCursor("arrow"))
 end
@@ -94,7 +107,7 @@ function state:init()
 	-- table.insert(items, Item("Shovel", "Used to shovel shit"))
 	-- table.insert(items, Item("Sandwich", "A simple PB&J", "Food"))
 	-- table.insert(items, Item("Sword", "It's legendary", "Sword", sword))
-	table.insert(items, createWeapon())
+	-- table.insert(items, createWeapon())
 	
 	
 	updateitems()

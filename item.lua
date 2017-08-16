@@ -75,7 +75,6 @@ function item:getRichName()
 			posts = posts + 1
 		end
 	end
-	print(tostring(str))
 	return str
 end
 
