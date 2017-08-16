@@ -10,6 +10,7 @@ local font = lg.newFont("data/cherry.ttf", 7)
 font:setFilter("linear", "linear")
 
 require "probability"
+interface = require "interface"
 local inv_state = require "inventory"
 
 function love.load()

@@ -56,62 +56,39 @@ function createWeapon()
 end
 
 function updateinfo(item)
-	infoui = {}
+	interface:clear("info")
 	
-	table.insert(infoui, Text("Name:   " .. item:getNormalName(), 300, 70))
-	table.insert(infoui, Text("Description:   " .. item.description, 300, 90))
-	table.insert(infoui, Text("Type:   " .. item.type, 300, 110))
-	table.insert(infoui, Text("___________________", 300, 120))
+	interface:add("info", Text("Name:   " .. item:getNormalName(), 300, 70))
+	interface:add("info", Text("Description:   " .. item.description, 300, 90))
+	interface:add("info", Text("Type:   " .. item.type, 300, 110))
+	interface:add("info", Text("___________________", 300, 120))
 	for i,v in ipairs(item.options) do
-		table.insert(infoui, Text(v.name, 300, 110+i*20, true, v.func))
+		interface:add("info", Text(v.name, 300, 110+i*20, true, v.func))
 	end
 end
 
 function updateitems()
-	itemui = {}
-	infoui = {}
+	interface:clear("item")
+	interface:clear("info")
 	
-	table.insert(itemui, Text("Clear", 10, 10, true, function() infoui = {} items = {} updateitems() end))
-	table.insert(itemui, Text("Test Probability", 10, 30, true, function()
+	interface:add("item", Text("Clear", 10, 10, true, function() infoui = {} items = {} updateitems() end))
+	interface:add("item", Text("Test Probability", 10, 30, true, function()
 		if #items == 14 then
 			items = {}
 			updateitems()
 		end
 		
-		local map = {
-			{"Legendary", 0.25}, -- 25% chance
-			{"Slow",      0.05}, -- 5% chance
-			{"Freezing",  0.05}, -- 5% chance
-			{"Fury",      0.65}  -- 65% chance
-		}
-		local item, prob = getProbabilityItem(map)
 		table.insert(items, createWeapon())
 		updateitems()
-		-- print(item .. " (" .. prob .. "%)")
 	end))
 	
 	for i,v in ipairs(items) do
-		table.insert(itemui, Text(v:getRichName(), 20, 50+i*20, true, function() updateinfo(v) end))
+		interface:add("item", Text(v:getRichName(), 20, 50+i*20, true, function() updateinfo(v) end))
 	end
 	lm.setCursor(lm.getSystemCursor("arrow"))
 end
 
 function state:init()
-	-- if self.init then return end
-	-- self.init = true
-	local sword = {
-		{"pre", "Slow", {100,100,100}},
-		{"pre", "Legendary", {155,90,90}},
-		{"post", "Fury", {155,155,90}},
-		{"post", "Freezing", {90,90,155}}
-	}
-	
-	-- table.insert(items, Item("Shovel", "Used to shovel shit"))
-	-- table.insert(items, Item("Sandwich", "A simple PB&J", "Food"))
-	-- table.insert(items, Item("Sword", "It's legendary", "Sword", sword))
-	-- table.insert(items, createWeapon())
-	
-	
 	updateitems()
 	
 end
@@ -127,24 +104,15 @@ function state:update(dt)
 end
 
 function state:draw()
-	for i,v in ipairs(itemui) do
-        v:update(love.timer.getDelta())
-        v:draw()
-    end
 	
-	for i,v in ipairs(infoui) do
-        v:update(love.timer.getDelta())
-        v:draw()
-    end
+	interface:update("item")
+	interface:update("info")
+	
 end
 
 function state:mousepressed(x, y, b)
-	for i,v in ipairs(itemui) do
-		v:mousepressed(x, y, b)
-	end
-	for i,v in ipairs(infoui) do
-		v:mousepressed(x, y, b)
-	end
+	interface:mousepressed("item", x, y, b)
+	interface:mousepressed("info", x, y, b)
 end
 
 function state:mousereleased(x, y, b)
