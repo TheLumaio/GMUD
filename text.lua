@@ -8,18 +8,27 @@ setmetatable(Text, {
 function Text.new(string, x, y, button, func)
     local self = setmetatable({}, Text)
     self.string = string
+	self.rawstr = ""
     self.x = x
     self.y = y
     self.button = button
 	self.func = func or function() end
 	self.inside = false
+	self.width = 0
+	if type(string) == "table" then
+		for i=2,#string,2 do
+			self.rawstr = self.rawstr .. string[i]
+		end
+	else
+		self.rawstr = self.string
+	end
     return self
 end
 
 function Text:update(dt)
     local mx, my = lm.getPosition()
     local font = lg.getFont()
-    local w,h = font:getWidth(self.string), font:getHeight(self.string)
+    local w,h = font:getWidth(self.rawstr), font:getHeight(self.rawstr)
     
     if mx > self.x and mx < self.x + w and my > self.y and my < self.y + h then
         if not self.inside then
@@ -41,12 +50,12 @@ end
 
 function Text:draw()
     local font = lg.getFont()
-    local w,h = font:getWidth(self.string), font:getHeight(self.string)
+    local w,h = font:getWidth(self.rawstr), font:getHeight(self.rawstr)
     if self.button then
         lg.line(self.x, self.y+h, self.x+w, self.y+h)
     end
     
-    lg.print(self.string, self.x, self.y)    
+    lg.print(self.string, self.x, self.y)   
 end
 
 function Text:mousepressed(x, y, b)
