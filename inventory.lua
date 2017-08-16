@@ -8,12 +8,10 @@ local items = {}
 
 local weapon_rare = {
 	{{"pre", "Legendary", {90,155,155}}, 0.01},
-	{{"pre", "Slow", {100,100,100}}, 0.01},
-	{{"pre", "Fast", {120,120,120}}, 0.01},
 	{{"pre", "Rare", {155,90,90}}, 0.05},
 	{{"pre", "Uncommon", {155,90,155}}, 0.10},
 	{{"pre", "Common", {200,200,200}}, 0.15},
-	{nil, 0.50}
+	{nil, 2}
 }
 
 local weapon_mods = {
@@ -33,8 +31,11 @@ local mod_num = {
 
 function createWeapon()
 	local mods = {}
+	local sum = 0
 	local num, prob = getProbabilityItem(mod_num)
+	sum = sum + (1-prob)
 	local rare, prob = getProbabilityItem(weapon_rare)
+	sum = sum + (1-prob)
 	if rare ~= nil then
 		table.insert(mods, rare)
 	end
@@ -48,9 +49,10 @@ function createWeapon()
 		end
 		if not found then
 			table.insert(mods, mod)
+			sum = sum + (1-prob)
 		end
 	end
-	return Item("Sword", "It's a sword I guess.", "Sword", mods)
+	return Item("(" .. math.floor(sum*100)/100 .. "%) Sword", "It's a sword I guess.", "Sword", mods)
 end
 
 function updateinfo(item)

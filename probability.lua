@@ -21,7 +21,7 @@ function getProbabilityItem(map)
 	for i,v in ipairs(map) do
 		cum = cum + v[2]
 		if rand < cum then
-			return v[1], v[2]
+			return v[1], v[2]/sum
 		end
 	end
 	return nil
