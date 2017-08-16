@@ -58,12 +58,12 @@ end
 function updateinfo(item)
 	infoui = {}
 	
-	table.insert(infoui, Text("Name:   " .. item:getNormalName(), 200, 70))
-	table.insert(infoui, Text("Description:   " .. item.description, 200, 90))
-	table.insert(infoui, Text("Type:   " .. item.type, 200, 110))
-	table.insert(infoui, Text("___________________", 200, 120))
+	table.insert(infoui, Text("Name:   " .. item:getNormalName(), 300, 70))
+	table.insert(infoui, Text("Description:   " .. item.description, 300, 90))
+	table.insert(infoui, Text("Type:   " .. item.type, 300, 110))
+	table.insert(infoui, Text("___________________", 300, 120))
 	for i,v in ipairs(item.options) do
-		table.insert(infoui, Text(v.name, 200, 110+i*20, true, v.func))
+		table.insert(infoui, Text(v.name, 300, 110+i*20, true, v.func))
 	end
 end
 
@@ -73,7 +73,7 @@ function updateitems()
 	
 	table.insert(itemui, Text("Clear", 10, 10, true, function() infoui = {} items = {} updateitems() end))
 	table.insert(itemui, Text("Test Probability", 10, 30, true, function()
-		if #items == 8 then
+		if #items == 14 then
 			items = {}
 			updateitems()
 		end
