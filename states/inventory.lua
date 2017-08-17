@@ -1,6 +1,6 @@
 local state = {}
 
-local Text = require "text"
+local Text = require "interface.text"
 local Item = require "item"
 local itemui = {}
 local infoui = {}
@@ -107,6 +107,10 @@ function state:draw()
 	
 	interface:update("item")
 	interface:update("info")
+	
+end
+
+function state:textinput(text)
 	
 end
 

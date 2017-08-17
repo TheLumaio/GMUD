@@ -28,7 +28,29 @@ end
 function interface:mousepressed(t, x, y, b)
 	if self.tables[t] ~= nil then
 		for _,item in ipairs(self.tables[t]) do
-			item:mousepressed(x, y, b)
+			if item.mousepressed then
+				item:mousepressed(x, y, b)
+			end
+		end
+	end
+end
+
+function interface:keypressed(t, k)
+	if self.tables[t] ~= nil then
+		for _,item in ipairs(self.tables[t]) do
+			if item.keypressed then
+				item:keypressed(k)
+			end
+		end
+	end
+end
+
+function interface:textinput(t, e)
+	if self.tables[t] ~= nil then
+		for _,item in ipairs(self.tables[t]) do
+			if item.textinput then
+				item:textinput(e)
+			end
 		end
 	end
 end

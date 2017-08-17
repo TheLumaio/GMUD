@@ -3,6 +3,8 @@ lm = love.mouse
 
 math.randomseed(os.time())
 
+love.keyboard.setKeyRepeat(true)
+
 lg.setDefaultFilter("linear", "linear")
 lg.setLineStyle("rough")
 lg.setLineWidth(1)
@@ -10,9 +12,9 @@ local font = lg.newFont("data/cherry.ttf", 7)
 font:setFilter("linear", "linear")
 
 require "probability"
-interface = require "interface"
-local inv_state = require "inventory"
-local map_state = require "map"
+interface = require "interface.interface"
+local inv_state = require "states.inventory"
+local map_state = require "states.map"
 
 local state = map_state
 
@@ -27,6 +29,10 @@ end
 
 function love.draw()
     state:draw()
+end
+
+function love.textinput(text)
+	state:textinput(text)
 end
 
 function love.mousepressed(x, y, b)

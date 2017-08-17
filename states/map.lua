@@ -1,6 +1,7 @@
 local state = {}
 
-local Text = require "text"
+local Text = require "interface.text"
+local Input = require "interface.input"
 
 local function drawStar(x, y, f)
 	local star = {
@@ -35,6 +36,8 @@ local function updateui()
 		local w = lg.getFont():getWidth(v.name)
 		interface:add("loc", Text(v.name, v.x-w/2, v.y+10, true, function() print(i) end))
 	end
+	
+	interface:add("loc", Input("Default Text", 200, 10, 100))
 	
 end
 
@@ -82,6 +85,12 @@ function state:keypressed(key)
 		dump = dump .. '}'
 		print(dump)
 	end
+	
+	interface:keypressed("loc", key)
+end
+
+function state:textinput(text)
+	interface:textinput("loc", text)
 end
 
 function state:keyreleased(key)

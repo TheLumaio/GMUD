@@ -93,7 +93,7 @@ local locations = {
 	{
 		x=443,
 		y=156,
-		name="crowcall",
+		name="Crowcall",
 		visited=false
 	}
 }
