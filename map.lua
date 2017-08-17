@@ -16,11 +16,12 @@ local function drawStar(x, y, f)
 		x-1,y-2
 	}
 	local triangles = love.math.triangulate(star)
-	if f then
-		for i,v in ipairs(triangles) do
-			lg.polygon("fill", v)
-		end
+	lg.setColor(0, 0, 0)
+	if f then lg.setColor(255,255,255) end
+	for i,v in ipairs(triangles) do
+		lg.polygon("fill", v)
 	end
+	lg.setColor(255,255,255)
 	lg.polygon("line", star)
 end
 
@@ -32,7 +33,7 @@ local function updateui()
 	
 	for i,v in ipairs(locations) do
 		local w = lg.getFont():getWidth(v.name)
-		interface:add("loc", Text(v.name, v.x-w/2, v.y+10, true, function() v.visited = not v.visited end))
+		interface:add("loc", Text(v.name, v.x-w/2, v.y+10, true, function() print(i) end))
 	end
 	
 end
@@ -46,7 +47,7 @@ function state:update(dt)
 end
 
 function state:draw()
-	lg.setColor(100, 100, 100)
+	-- lg.setColor(100, 100, 100)
 	lg.draw(backdrop)
 	lg.setColor(255,255,255)
 	for i,v in ipairs(locations) do
