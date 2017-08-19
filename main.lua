@@ -32,7 +32,7 @@ end
 function love.load()
     lg.setFont(font)
 	changeState(start_state)
-	
+
 	interface:clear("global")
 	interface:add("global", Link("Map", 610, 20, function() changeState(map_state) end))
 	interface:add("global", Link("Inventory", 550, 20, function() changeState(inv_state) end))
@@ -63,6 +63,11 @@ end
 
 function love.keypressed(key)
 	STATE:keypressed(key)
+	
+	--[[ TODO: Remove this and add close button to menu ]]
+	if key == "escape" then
+		love.event.quit()
+	end
 end
 
 function love.keyreleased(key)

@@ -31,14 +31,14 @@ local locations = require "data.locations"
 
 local function updateui()
 	interface:clear("loc")
-	
+
 	for i,v in ipairs(locations) do
 		local w = lg.getFont():getWidth(v.name)
 		interface:add("loc", Link(v.name, v.x-w/2, v.y+10, function() print(i) v.visited = not v.visited end))
 	end
-	
+
 	interface:add("loc", Input("Default Text", 200, 10, 100))
-	
+
 end
 
 function state:init()
@@ -46,7 +46,7 @@ function state:init()
 end
 
 function state:update(dt)
-	
+
 end
 
 function state:draw()
@@ -61,11 +61,11 @@ end
 
 function state:mousepressed(x, y, b)
 	interface:mousepressed(x, y, b, "loc")
-	
+
 end
 
 function state:mousereleased(x, y, b)
-	
+
 end
 
 function state:keypressed(key)
@@ -85,7 +85,7 @@ function state:keypressed(key)
 		dump = dump .. '}'
 		print(dump)
 	end
-	
+
 	interface:keypressed(key, "loc")
 end
 
@@ -94,7 +94,7 @@ function state:textinput(text)
 end
 
 function state:keyreleased(key)
-	
+
 end
 
 return state
