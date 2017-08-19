@@ -7,7 +7,7 @@ local backdrop = nil
 local spox = 70
 local spos = 100
 
-function updateUi()
+local function updateui()
 	interface:clear("class_selection", "start_other")
 	
 	interface:add("class_selection", Link("Barbarian", spox, spos, function()
