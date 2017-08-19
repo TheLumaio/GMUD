@@ -60,7 +60,7 @@ function state:draw()
 end
 
 function state:mousepressed(x, y, b)
-	interface:mousepressed("loc", x, y, b)
+	interface:mousepressed(x, y, b, "loc")
 	
 end
 
@@ -86,11 +86,11 @@ function state:keypressed(key)
 		print(dump)
 	end
 	
-	interface:keypressed("loc", key)
+	interface:keypressed(key, "loc")
 end
 
 function state:textinput(text)
-	interface:textinput("loc", text)
+	interface:textinput(text, "loc")
 end
 
 function state:keyreleased(key)

@@ -10,46 +10,61 @@ function interface:add(t, item)
 	table.insert(self.tables[t], item)
 end
 
-function interface:clear(t)
-	if self.tables[t] ~= nil then
-		self.tables[t] = {}
-	end
-end
-
-function interface:update(t)
-	if self.tables[t] ~= nil then
-		for _,item in ipairs(self.tables[t]) do
-			item:update(love.timer.getDelta())
-			item:draw()
+function interface:clear(...)
+	local args = {...}
+	for _,t in ipairs(args) do
+		if self.tables[t] ~= nil then
+			self.tables[t] = {}
 		end
 	end
 end
 
-function interface:mousepressed(t, x, y, b)
-	if self.tables[t] ~= nil then
-		for _,item in ipairs(self.tables[t]) do
-			if item.mousepressed then
-				item:mousepressed(x, y, b)
+function interface:update(...)
+	local args = {...}
+	for _,t in ipairs(args) do
+		if self.tables[t] ~= nil then
+			for _,item in ipairs(self.tables[t]) do
+				item:update(love.timer.getDelta())
+				item:draw()
 			end
 		end
 	end
 end
 
-function interface:keypressed(t, k)
-	if self.tables[t] ~= nil then
-		for _,item in ipairs(self.tables[t]) do
-			if item.keypressed then
-				item:keypressed(k)
+function interface:mousepressed(x, y, b, ...)
+	local args = {...}
+	for _,t in ipairs(args) do
+		if self.tables[t] ~= nil then
+			for _,item in ipairs(self.tables[t]) do
+				if item.mousepressed then
+					item:mousepressed(x, y, b)
+				end
 			end
 		end
 	end
 end
 
-function interface:textinput(t, e)
-	if self.tables[t] ~= nil then
-		for _,item in ipairs(self.tables[t]) do
-			if item.textinput then
-				item:textinput(e)
+function interface:keypressed(k, ...)
+	local args = {...}
+	for _,t in ipairs(args) do
+		if self.tables[t] ~= nil then
+			for _,item in ipairs(self.tables[t]) do
+				if item.keypressed then
+					item:keypressed(k)
+				end
+			end
+		end
+	end
+end
+
+function interface:textinput(e, ...)
+	local args = {...}
+	for _,t in ipairs(args) do
+		if self.tables[t] ~= nil then
+			for _,item in ipairs(self.tables[t]) do
+				if item.textinput then
+					item:textinput(e)
+				end
 			end
 		end
 	end
