@@ -8,6 +8,13 @@ function interface:add(t, item)
 		self.tables[t] = {}
 	end
 	table.insert(self.tables[t], item)
+	return #self.tables[t]
+end
+
+function interface:get(t, id)
+	if self.tables[t] ~= nil then
+		return self.tables[t][id]
+	end
 end
 
 function interface:clear(...)
