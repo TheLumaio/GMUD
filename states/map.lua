@@ -1,6 +1,6 @@
 local state = {}
 
-local Text = require "interface.text"
+local Link = require "interface.link"
 local Input = require "interface.input"
 
 local function drawStar(x, y, f)
@@ -34,7 +34,7 @@ local function updateui()
 	
 	for i,v in ipairs(locations) do
 		local w = lg.getFont():getWidth(v.name)
-		interface:add("loc", Text(v.name, v.x-w/2, v.y+10, true, function() print(i) v.visited = not v.visited end))
+		interface:add("loc", Link(v.name, v.x-w/2, v.y+10, function() print(i) v.visited = not v.visited end))
 	end
 	
 	interface:add("loc", Input("Default Text", 200, 10, 100))

@@ -1,6 +1,6 @@
 local state = {}
 
-local Text = require "interface.text"
+local Link = require "interface.link"
 local Input = require "interface.input"
 
 local backdrop = nil
@@ -10,13 +10,13 @@ local spos = 100
 function updateUi()
 	interface:clear("class_selection", "start_other")
 	
-	interface:add("class_selection", Text("Barbarian", spox, spos, true, function()
+	interface:add("class_selection", Link("Barbarian", spox, spos, function()
 		--[[ TODO: Select class ]]
 	end))
-	interface:add("class_selection", Text("Warlock", spox, spos+20, true, function()
+	interface:add("class_selection", Link("Warlock", spox, spos+20, function()
 		--[[ TODO: Select class ]]
 	end))
-	interface:add("class_selection", Text("Archer", spox, spos+40, true, function()
+	interface:add("class_selection", Link("Archer", spox, spos+40, function()
 		--[[ TODO: Select class ]]
 	end))
 	

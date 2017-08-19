@@ -1,17 +1,16 @@
-local Text = {}
-Text.__index = Text
-setmetatable(Text, {
+local Link = {}
+Link.__index = Link
+setmetatable(Link, {
     __call = function (cls, ...)
         return cls.new(...)
     end
 })
-function Text.new(string, x, y, button, func)
-    local self = setmetatable({}, Text)
+function Link.new(string, x, y, func)
+    local self = setmetatable({}, Link)
     self.string = string
 	self.rawstr = ""
     self.x = x
     self.y = y
-    self.button = button
 	self.func = func or function() end
 	self.inside = false
 	self.width = 0
@@ -25,18 +24,14 @@ function Text.new(string, x, y, button, func)
     return self
 end
 
-function Text:update(dt)
+function Link:update(dt)
     local mx, my = lm.getPosition()
     local font = lg.getFont()
     local w,h = font:getWidth(self.rawstr), font:getHeight(self.rawstr)
     
     if mx > self.x and mx < self.x + w and my > self.y and my < self.y + h then
         if not self.inside then
-	        if self.button then
-	            lm.setCursor(lm.getSystemCursor("hand"))
-	        else
-	            lm.setCursor(lm.getSystemCursor("ibeam"))
-	        end
+	        lm.setCursor(lm.getSystemCursor("hand"))
 			self.inside = true
 		end
     else
@@ -48,20 +43,18 @@ function Text:update(dt)
     
 end
 
-function Text:draw()
+function Link:draw()
     local font = lg.getFont()
     local w,h = font:getWidth(self.rawstr), font:getHeight(self.rawstr)
-    if self.button then
-        lg.line(self.x, self.y+h, self.x+w, self.y+h)
-    end
+    lg.line(self.x, self.y+h, self.x+w, self.y+h)
     
     lg.print(self.string, self.x, self.y)   
 end
 
-function Text:mousepressed(x, y, b)
+function Link:mousepressed(x, y, b)
 	if self.inside then
 		self.func()
 	end
 end
 
-return Text
+return Link

@@ -17,6 +17,8 @@ local inv_state = require "states.inventory"
 local map_state = require "states.map"
 local start_state = require "states.start"
 
+local Link = require "interface.link"
+
 local STATE = nil
 
 function changeState(state)
@@ -30,6 +32,11 @@ end
 function love.load()
     lg.setFont(font)
 	changeState(start_state)
+	
+	interface:clear("global")
+	interface:add("global", Link("Map", 610, 20, function() changeState(map_state) end))
+	interface:add("global", Link("Inventory", 550, 20, function() changeState(inv_state) end))
+	interface:add("global", Link("Character", 485, 20, function() changeState(start_state) end))
 end
 
 function love.update(dt)
@@ -38,6 +45,7 @@ end
 
 function love.draw()
     STATE:draw()
+	interface:update("global")
 end
 
 function love.textinput(text)
@@ -46,6 +54,7 @@ end
 
 function love.mousepressed(x, y, b)
 	STATE:mousepressed(x, y, b)
+	interface:mousepressed(x, y, b, "global")
 end
 
 function love.mousereleased(x, y, b)
